@@ -1,0 +1,19 @@
+{
+  "name": "aa-step-app",
+  "version": "1.0.0",
+  "description": "First Step",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Aaron Lee",
+  "license": "MIT",
+  "dependencies": {
+    "ejs": "^2.5.7",
+    "express": "^4.16.2"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1"
+  }
+}
