@@ -3,7 +3,7 @@ module.exports = function(grunt) {
 
     // Make package info available to tasks
     pkg: grunt.file.readJSON('package.json'),
-    
+
     watch: {
       source: {
         files: ['sass/**/*.scss'],
@@ -33,7 +33,7 @@ module.exports = function(grunt) {
 
         concurrent: {
       dev: {
-        tasks: ['nodemon'],
+        tasks: ['nodemon', 'watch'],
         options: {
           logConcurrentOutput: true
         }
