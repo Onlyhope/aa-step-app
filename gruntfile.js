@@ -1,5 +1,9 @@
 module.exports = function(grunt) {
   grunt.initConfig ({
+
+    // Make package info available to tasks
+    pkg: grunt.file.readJSON('package.json'),
+    
     watch: {
       source: {
         files: ['sass/**/*.scss'],
