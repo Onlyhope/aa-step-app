@@ -5,16 +5,20 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "start": "node src/app.js",
+    "start": "node ./bin/www",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Aaron Lee",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.18.2",
+    "cookie-parser": "^1.4.3",
     "ejs": "^2.5.7",
     "express": "^4.16.2",
     "grunt-concurrent": "^2.3.1",
-    "grunt-nodemon": "^0.4.2"
+    "grunt-nodemon": "^0.4.2",
+    "morgan": "^1.9.0",
+    "serve-favicon": "^2.4.5"
   },
   "devDependencies": {
     "grunt": "^1.0.1",
