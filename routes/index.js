@@ -7,9 +7,16 @@ var formidable = require('formidable');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+	var list_of_users = [
+		{ username: "Aaron Lee", password: "123", age: 5 },
+		{ username: "Benjamin Lee", password: "456", age: 10 },
+		{ username: "Chris Lee", password: "789", age: 15 }
+	]
+
   	res.render('pages/index', { 
   							title: "Express",
-  							author: "Aaron Lee"
+  							author: "Aaron Lee",
+  							userList: list_of_users
   						});
 });
 
