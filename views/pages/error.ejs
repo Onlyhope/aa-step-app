@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Ultimate Express Application</title>
+  	<% include ../partials/header.ejs %>
+</head>
+
+<body>
+	<h1>Error:</h1>
+	<p><%=message%></p>
+	<p><%=error.stack%></p>
+	<!-- <% for (var i = 0; i < error.stack.length; i++) { %>
+	<p><%=error.stack[i]%></p>
+	<% } %> -->
+</body>
+
+</html>
