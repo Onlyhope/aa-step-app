@@ -32,12 +32,27 @@ router.get('/', function(req, res, next) {
 router.get('/file-display/:file_name', function(req, res, next) {
 	var file_path = upload_dir + req.params.file_name;
 	var csv_to_json = csv();
+	var transactions = [];
 
-	console.log(file_path);
+	csv()
+	.fromFile(file_path)
+	.on('json',(jsonObj)=>{
+		console.log(jsonObj.Amount);
+		console.log(jsonObj.Description);
+		console.log(jsonObj.PostDate);
+		transactions.push(jsonObj);
+    	// combine csv header row and csv line to a json object
+    	// jsonObj.a ==> 1 or 4
+	}).on('done', (error) => {
+		console.log(transactions.length);
 
-	fs.readFile(file_path, (err, data) => {
-		if (err) throw err;
-		res.send("<h2>" + data + "</h2>");
+		fs.readFile(file_path, (err, data) => {
+			if (err) throw err;
+			res.render('pages/file-display', {
+											fileName : req.params.file_name,
+											transactionList : transactions
+										});
+		});
 	});
 });
 
