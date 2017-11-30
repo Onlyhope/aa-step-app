@@ -4,7 +4,7 @@ var router = express.Router();
 var fs = require('fs');
 var path = require('path');
 var formidable = require('formidable');
-var csv = require('csv');
+var csv = require('csvtojson');
 
 var upload_dir = path.join(__dirname, "../uploads/");
 
@@ -31,6 +31,8 @@ router.get('/', function(req, res, next) {
 
 router.get('/file-display/:file_name', function(req, res, next) {
 	var file_path = upload_dir + req.params.file_name;
+	var csv_to_json = csv();
+
 	console.log(file_path);
 
 	fs.readFile(file_path, (err, data) => {
