@@ -76,16 +76,10 @@ var MongoClient = require('mongodb').MongoClient;
 url = 'mongodb://localhost:27017/aa-step-app';
 
 MongoClient.connect(url, function(err, db) {
-  console.log("Connected correctly to server");
-
-  if (db) 
-    console.log("db is not null");
-  else 
-    console.log("db is null");
-
+  	if (err) throw err;
+  	console.log("Connected correctly to server");
+  	db.close();
 });
-
-
 
 // Now that setup is done, write data to the stream
 parser.write("root:x:0:0:root:/root:/bin/bash\n");
