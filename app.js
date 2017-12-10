@@ -57,6 +57,7 @@ parser.on('readable', function() {
 		output.push(record);
 	}
 });
+
 // Catch any error
 parser.on('error', function(err) {
 	console.log(err.message);
@@ -68,6 +69,23 @@ parser.on('finish', function(){
     	[ 'someone','x','1022','1022','a funny cat','/home/someone','/bin/bash' ]
   	]);
 });
+
+// Create MongoDB Client
+var MongoClient = require('mongodb').MongoClient;
+
+url = 'mongodb://localhost:27017/aa-step-app';
+
+MongoClient.connect(url, function(err, db) {
+  console.log("Connected correctly to server");
+
+  if (db) 
+    console.log("db is not null");
+  else 
+    console.log("db is null");
+
+});
+
+
 
 // Now that setup is done, write data to the stream
 parser.write("root:x:0:0:root:/root:/bin/bash\n");
