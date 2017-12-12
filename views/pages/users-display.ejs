@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>User Display</title>
+	<% include ../partials/header.ejs %>
+</head>
+
+<body>
+	<div class="container">
+		<h1><%=title%></h1>
+		<hr/>
+		<ul>
+		<% userList.forEach(function(user) { %>
+			<li><a href="<%=user.username%>"><%=user.name%></a></li>
+		<%});%>
+		</ul>
+	</div>
+
+</body>
+</html>
