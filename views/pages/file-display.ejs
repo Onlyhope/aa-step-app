@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>First NodeJS Application</title>
+	<% include ../partials/header.ejs %>
+</head>
+
+<body>
+	<div class="container">
+		<h1>Displaying <%=fileName%>:</h1>
+		<ul>
+		<% for (var i = 0; i < transactionList.length; i++) { %>
+			<li><%=transactionList[i].Description%>: <%=transactionList[i].Amount%></li>
+		<%}%>
+		</ul>
+	</div>
+
+</body>
+</html>
