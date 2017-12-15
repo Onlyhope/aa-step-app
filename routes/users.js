@@ -19,8 +19,10 @@ router.get('/display', function(req, res, next) {
 			console.log('Connection to MongoDB failed...', err);
 		} else {
 			console.log('Connection to MongoDB success!', url);
-			// Get the correct collection - aa_users 
-			var collection = db.collection('aa_users');
+
+			// Get the correct collection - aa_users
+			var userDB = db.db('aa_users');
+			var collection = userDB.collection('aa_users');
 			// Get all users
 			collection.find({}).toArray(function (err, result) {
 				if (err) {
@@ -49,7 +51,8 @@ router.get('/:username', function(req, res, next) {
 			console.log('Connection to MongoDB failed', err);
 		} else {
 			// Get the collection from the db
-			var collection = db.collection('aa_users');
+			var userDB = db.db('aa_users');
+			var collection = userDB.collection('aa_users');
 			// Retrieve user object from collection
 			collection.find({
 				username : req.params.username
@@ -77,7 +80,8 @@ router.post('/:username/update-user', function(req, res, next) {
 
 	MongoClient.connect(url, function(err, db) {
 		// Get the collection from the db
-		var collection = db.collection('aa_users');
+		var userDB = db.db('aa_users');
+		var collection = userDB.collection('aa_users');
 		// Retrieve user object from collection
 		collection.updateOne(
 			{ username : req.params.username },
@@ -95,7 +99,7 @@ router.post('/:username/update-user', function(req, res, next) {
 				}
 		});
 
-		db.close()
+		db.close();
 	});
 });
 
@@ -105,7 +109,8 @@ router.post('/:username/delete-user', function(req, res, next) {
 
 	MongoClient.connect(url, function(err, db) {
 		// Get the collection from the db
-		var collection = db.collection('aa_users');
+		var userDB = db.db('aa_users');
+		var collection = userDB.collection('aa_users');
 		// Delete the user from the database
 		collection.deleteOne({
 			username: req.params.username
@@ -121,7 +126,7 @@ router.post('/:username/delete-user', function(req, res, next) {
 
 		db.close();
 	});
-})
+});
 
 router.post('/new-user', function(req, res, next) {
 	var MongoClient = mongodb.MongoClient;
@@ -132,7 +137,8 @@ router.post('/new-user', function(req, res, next) {
 			console.log('Connection to MongoDB failed...', err);
 		} else {
 			// Get the collection from the db
-			var collection = db.collection('aa_users');
+			var userDB = db.db('aa_users');
+			var collection = userDB.collection('aa_users');
 
 			// Retrieve data from HTTP request body
 			var user = {

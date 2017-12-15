@@ -31,7 +31,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/file-display/:file_name', function(req, res, next) {
 	var file_path = upload_dir + req.params.file_name;
-	var csv_to_json = csv();
+
 	var transactions = [];
 
 	csv()
@@ -65,10 +65,17 @@ router.post('/file-upload', function(req, res, next) {
 
 	form.parse(req, function(err, fields, files) {
 		var oldpath = files.filetoupload.path;
-		var newpath = upload_dir + files.filetoupload.name;
-		fs.rename(oldpath, newpath, function(err) {
-			if (err) throw err;
-			res.redirect('/');
+
+		var transactions = [];
+
+		csv()
+		.fromFile(oldpath)
+		.on('json', (jsonObj) => {
+			console.log(jsonObj["Post Date"]);
+			console.log("\nTransaction: ", jsonObj);
+			transactions.push(jsonObj);
+		}).on('done', (error) => {
+			// Save transctions into database here...
 		});
 	});
 });
