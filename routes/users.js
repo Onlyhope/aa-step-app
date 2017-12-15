@@ -22,7 +22,7 @@ router.get('/display', function(req, res, next) {
 
 			// Get the correct collection - aa_users
 			var userDB = db.db('aa_users');
-			var collection = userDB.collection('aa_users');
+			var collection = userDB.collection('users');
 			// Get all users
 			collection.find({}).toArray(function (err, result) {
 				if (err) {
@@ -52,7 +52,7 @@ router.get('/:username', function(req, res, next) {
 		} else {
 			// Get the collection from the db
 			var userDB = db.db('aa_users');
-			var collection = userDB.collection('aa_users');
+			var collection = userDB.collection('users');
 			// Retrieve user object from collection
 			collection.find({
 				username : req.params.username
@@ -81,7 +81,7 @@ router.post('/:username/update-user', function(req, res, next) {
 	MongoClient.connect(url, function(err, db) {
 		// Get the collection from the db
 		var userDB = db.db('aa_users');
-		var collection = userDB.collection('aa_users');
+		var collection = userDB.collection('users');
 		// Retrieve user object from collection
 		collection.updateOne(
 			{ username : req.params.username },
@@ -110,7 +110,7 @@ router.post('/:username/delete-user', function(req, res, next) {
 	MongoClient.connect(url, function(err, db) {
 		// Get the collection from the db
 		var userDB = db.db('aa_users');
-		var collection = userDB.collection('aa_users');
+		var collection = userDB.collection('users');
 		// Delete the user from the database
 		collection.deleteOne({
 			username: req.params.username
@@ -138,7 +138,7 @@ router.post('/new-user', function(req, res, next) {
 		} else {
 			// Get the collection from the db
 			var userDB = db.db('aa_users');
-			var collection = userDB.collection('aa_users');
+			var collection = userDB.collection('users');
 
 			// Retrieve data from HTTP request body
 			var user = {

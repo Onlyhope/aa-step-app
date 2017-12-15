@@ -78,8 +78,14 @@ url = 'mongodb://localhost:27017/aa-step-app';
 MongoClient.connect(url, function(err, db) {
   	if (err) throw err;
   	console.log("Connected correctly to server");
-    
-  	db.close();
+    db.db('aa_users').createCollection('users', function(err, res) {
+      if (err)
+        console.log('Collection not created');
+      else
+        console.log('Collection "users" created!');
+    })
+
+    db.close();
 });
 
 // Now that setup is done, write data to the stream
