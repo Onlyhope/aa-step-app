@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title><%=title%></title>
+	<% include ../partials/header.ejs %>
+</head>
+
+<body>
+	<div class="container">
+		<h1><%=title%></h1>
+		<hr/>
+		<ul>
+		<% userList.forEach(function(user) { %>
+			<li><a href="<%=user.username%>"><%=user.name%></a></li>
+		<%});%>
+		</ul>
+		<hr/>
+		<h4>Add User</h4>
+		<form action="new-user" method="post">
+			<div class="form group">
+				<label for="username">Username:</label>
+				<input type="text" name="username" id="username">
+				<br/>
+				<label for="password">Password:</label>
+				<input type="text" name="password" id="password">
+				<br/>
+				<label for="name">Name: </label>
+				<input type="text" name="name" id="name">
+				<br/>
+				<label for="email">Email: </label>
+				<input type="text" name="email" id="email">
+				<br/>
+				<input type="submit">
+			</div>
+		</form>
+	</div>
+</body>
+</html>

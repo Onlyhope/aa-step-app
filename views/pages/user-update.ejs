@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title><%=title%></title>
+	<% include ../partials/header.ejs %>
+</head>
+
+<body>
+	<div class="container">
+		<h1><%=title%></h1>
+		<hr/>
+		<form action="<%=user.username%>/update-user" method="post">
+			<label for="username">Username:</label>
+			<input type="text" name="username" id="username" value="<%=user.username%>">
+			<br/>
+			<label for="password">Password:</label>
+			<input type="text" name="password" id="password" value="<%=user.password%>">
+			<br/>
+			<label for="name">Name: </label>
+			<input type="text" name="name" id="name" value="<%=user.name%>">
+			<br/>
+			<label for="email">Email: </label>
+			<input type="text" name="email" id="email" value="<%=user.email%>">
+			<br/>
+			<input type="submit">
+		</form>
+		<form action="<%=user.username%>/delete-user" method="post" style="margin-top: 5px;">
+			<input type="submit" value="Delete">
+		</form>
+	</div>
+</body>
+</html>
