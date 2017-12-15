@@ -75,7 +75,7 @@ router.post('/file-upload', function(req, res, next) {
 			console.log("\nTransaction: ", jsonObj);
 			transactions.push(jsonObj);
 		}).on('done', (error) => {
-			// Save transctions into database here...
+			// Save transctions into database here..
 		});
 	});
 });

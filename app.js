@@ -73,19 +73,21 @@ parser.on('finish', function(){
 // Create MongoDB Client
 var MongoClient = require('mongodb').MongoClient;
 
-url = 'mongodb://localhost:27017/aa-step-app';
+url = 'mongodb://localhost:27017/aa_users';
 
 MongoClient.connect(url, function(err, db) {
   	if (err) throw err;
   	console.log("Connected correctly to server");
     db.db('aa_users').createCollection('users', function(err, res) {
       if (err)
-        console.log('Collection not created');
+        console.log('Collection not created', err);
       else
         console.log('Collection "users" created!');
-    })
 
-    db.close();
+      db.close();
+    });
+
+    
 });
 
 // Now that setup is done, write data to the stream
