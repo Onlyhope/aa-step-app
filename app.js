@@ -83,11 +83,16 @@ MongoClient.connect(url, function(err, db) {
         console.log('Collection not created', err);
       else
         console.log('Collection "users" created!');
+    });
+    
+    db.db('aa_users').createCollection('transactions', function(err, res) {
+      if (err)
+        console.log('Collection "transactions" not created');
+      else
+        console.log('Collection "transactions created!');
 
       db.close();
     });
-
-    
 });
 
 // Now that setup is done, write data to the stream

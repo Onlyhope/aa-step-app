@@ -5,6 +5,7 @@ var fs = require('fs');
 var path = require('path');
 var formidable = require('formidable');
 var csv = require('csvtojson');
+var mongodb = require('mongodb');
 
 var upload_dir = path.join(__dirname, "../uploads/");
 
@@ -76,6 +77,25 @@ router.post('/file-upload', function(req, res, next) {
 			transactions.push(jsonObj);
 		}).on('done', (error) => {
 			// Save transctions into database here..
+			var MongoClient = mongodb.MongoClient;
+			var url = 'mongodb://localhost:27017/aa_users';
+
+			MongoClient.connect(url, function(err, db) {
+				if (err) {
+					console.log('Connection to MongoDB failed...', err);
+				} else {
+					var userDB = db.db('aa_users');
+					var collection = userDB.collection('transactions');
+
+					collection.insert(transactions, function(err, result) {
+						if (err) {
+							res.send('Error', err);
+						} else {
+						res.redirect('/');
+						}
+					});
+				}
+			});
 		});
 	});
 });
