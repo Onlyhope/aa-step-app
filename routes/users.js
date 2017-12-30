@@ -9,126 +9,118 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/display', function(req, res, next) {
+	var displayUsers = function(db) {
+		var userDB = db.db('aa_users');
+		var collection = userDB.collection('users');
 
-	var MongoClient = mongodb.MongoClient;
-	// aa_users indicate the db name
-	var url = 'mongodb://localhost:27017/aa_users';
+		collection.find({}).toArray(function(err, result) {
+			if (err) {
+				res.send(err);
+			} else if (result.length) {
+				res.render('pages/users-display', {
+					title: "User Display",
+					userList: result
+				});
+			} else {
+				res.send("No users found");
+			}
+		});
+	};
 
-	MongoClient.connect(url, function(err, db) {
-		if (err) {
-			console.log('Connection to MongoDB failed...', err);
-		} else {
-			console.log('Connection to MongoDB success!', url);
-
-			// Get the correct collection - aa_users
-			var userDB = db.db('aa_users');
-			var collection = userDB.collection('users');
-			// Get all users
-			collection.find({}).toArray(function (err, result) {
-				if (err) {
-					res.send(err);
-				} else if (result.length) {
-					res.render('pages/users-display', {
-						title : "User Display",
-						userList : result
-					});
-				} else {
-					res.send('No users / documents found');
-				}
-				// Close Connection
-				db.close();
-			});
-		}
-	});
+	operateDatabase(displayUsers);
 });
 
 router.get('/:username', function(req, res, next) {
-	var MongoClient = mongodb.MongoClient;
-	var url = 'mongodb://localhost:27017/aa_users';
+	var getUserInfo = function(db) {
+		var userDB = db.db('aa_users');
+		var collection = userDB.collection('users');
 
-	MongoClient.connect(url, function(err, db) {
-		if (err) {
-			console.log('Connection to MongoDB failed', err);
-		} else {
-			// Get the collection from the db
-			var userDB = db.db('aa_users');
-			var collection = userDB.collection('users');
-			// Retrieve user object from collection
-			collection.find({
-				username : req.params.username
-			}).toArray(function(err, result) {
-				if (err) {
-					console.log(err);
-					res.send(err);
-				} else {
-					var users = result;
-					res.render('pages/user-update', {
-						title : "Update User Info:",
-						user : users[0]
-					});
-				}
-			});
-		}
+		collection.find({
+			username : req.params.username
+		}).toArray(function(err, result) {
+			if (err) {
+				res.send(err);
+			} else {
+				var users = result;
+				res.render('pages/user-update', {
+					title: "Update User Info",
+					user: users[0]
+				});
+			}
+		});
+	};
 
-		db.close();
-	});
+	operateDatabase(getUserInfo);
 });
 
 router.post('/:username/update-user', function(req, res, next) {
-	var MongoClient = mongodb.MongoClient;
-	var url = 'mongodb://localhost:27017/aa_users';
-
-	MongoClient.connect(url, function(err, db) {
-		// Get the collection from the db
+	var updateUser = function(db) {
 		var userDB = db.db('aa_users');
 		var collection = userDB.collection('users');
-		// Retrieve user object from collection
+
 		collection.updateOne(
-			{ username : req.params.username },
-			{ 	username : req.body.username,
-				password : req.body.password,
-				name : req.body.name,
-				email : req.body.email },
+			{ username: req.params.username},
+			{ username: req.body.username,
+			  password: req.body.password,
+			  name: req.body.name,
+			  email: req.body.email},
 			function(err, result) {
 				if (err) {
-					console.log(err);
 					res.send(err);
 				} else {
-					console.log('Success!');
 					res.redirect('/users/' + req.params.username);
 				}
-		});
+			});
+	};
 
-		db.close();
-	});
+	operateDatabase(updateUser);
 });
 
 router.post('/:username/delete-user', function(req, res, next) {
-	var MongoClient = mongodb.MongoClient;
-	var url = 'mongodb://localhost:27017/aa_users';
-
-	MongoClient.connect(url, function(err, db) {
-		// Get the collection from the db
+	var deleteUser = function(db) {
 		var userDB = db.db('aa_users');
 		var collection = userDB.collection('users');
-		// Delete the user from the database
+
 		collection.deleteOne({
 			username: req.params.username
-		}, function (err, result) {
+		},
+		function (err, result) {
 			if (err) {
-				console.log("Deletion failed!");
 				res.send(err);
 			} else {
-				console.log("Success!");
 				res.redirect('/users/display');
 			}
 		});
+	};
 
-		db.close();
-	});
+	operateDatabase(deleteUser);
 });
 
-router.post('/new-user', function(req, res, next) {
+router.post('/new-user', function(req, res, next) {	
+	var createUser = function(db) {
+		var userDB = db.db('aa_users');
+		var collection = userDB.collection('users');
+
+		var user = {
+			username: req.body.username,
+			password: req.body.password,
+			name: req.body.name,
+			email: req.body.email
+		};
+
+		collection.insert([user], function(err, result) {
+			if (err) {
+				res.send(err);
+			} else {
+				res.redirect('display');
+			}
+		});
+	};
+
+	operateDatabase(createUser);
+});
+
+var operateDatabase = function (action) {
 	var MongoClient = mongodb.MongoClient;
 	var url = 'mongodb://localhost:27017/aa_users';
 
@@ -136,33 +128,11 @@ router.post('/new-user', function(req, res, next) {
 		if (err) {
 			console.log('Connection to MongoDB failed...', err);
 		} else {
-			// Get the collection from the db
-			var userDB = db.db('aa_users');
-			var collection = userDB.collection('users');
-
-			// Retrieve data from HTTP request body
-			var user = {
-				username: req.body.username,
-				password: req.body.password,
-				name: req.body.name,
-				email: req.body.email,
-				js_input: "HACKED"
-			};
-
-			// Insert new user into the database
-			collection.insert([user], function (err, result) {
-				if (err) {
-					console.log(err);
-					res.redirect('display');
-				} else {
-					console.log("Inserted: ", user);
-					res.redirect('display');
-				}
-			});
-
+			console.log('Connection successful! Performing action...');
+			action(db);
 			db.close();
 		}
 	});
-});
+};
 
 module.exports = router;
