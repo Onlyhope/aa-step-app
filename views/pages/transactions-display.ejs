@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title><%=title%></title>
+	<% include ../partials/header.ejs %>
+</head>
+
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<ul>
+				<% transList.forEach(function(transaction) { %>
+				<li><a href="<%=transaction['_id']%>"><%=transaction['Description']%></a></li>
+				<%});%>
+				</ul>
+			</div>
+			<div class="col-md-9">
+				<div class="row">
+					<h2>%=title%></h2>
+				</div>
+				<div class="row">
+					<p>Information and Graphs of Transactions display here</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
