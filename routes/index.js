@@ -28,9 +28,7 @@ router.get('/', function(req, res, next) {
 		})
 	};
 
-	operateDatabase(renderHomePage);
-
-  	
+	operateDatabase(renderHomePage); 	
 });
 
 router.get('/file-display/:file_name', function(req, res, next) {
@@ -68,8 +66,6 @@ router.post('/file-upload', function(req, res, next) {
 		csv()
 		.fromFile(oldpath)
 		.on('json', (jsonObj) => {
-			console.log(jsonObj["Post Date"]);
-			console.log("\nTransaction: ", jsonObj);
 			transactions.push(jsonObj);
 		}).on('done', (error) => {
 			// Save transctions into database here..

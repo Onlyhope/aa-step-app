@@ -9,18 +9,21 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-3">
-				<ul>
+				<ul class="list-group trans-list">
 				<% transList.forEach(function(transaction) { %>
-				<li><a href="<%=transaction['_id']%>"><%=transaction['Description']%></a></li>
+					<li class="list-group-item trans-item"><a class="trans-item-link" href="transactions/detail/<%=transaction['_id']%>"><%=transaction['Description']%><br/><%=transaction['Amount']%></a></li>
 				<%});%>
 				</ul>
 			</div>
 			<div class="col-md-9">
 				<div class="row">
-					<h2>%=title%></h2>
+					<h2><%=title%></h2>
 				</div>
 				<div class="row">
 					<p>Information and Graphs of Transactions display here</p>
+				</div>
+				<div class="row">
+					<p>Total Spent: <%=totalSpent%></p>
 				</div>
 			</div>
 		</div>

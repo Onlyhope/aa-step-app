@@ -1,2 +1,13 @@
 body {
   margin-top: 50px; }
+
+.trans-list {
+  padding: 0 5px 0 5px; }
+
+.trans-item-link {
+  margin: auto;
+  text-align: center;
+  text-decoration: none; }
+
+.trans-item {
+  text-decoration: none; }

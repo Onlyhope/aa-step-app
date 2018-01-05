@@ -1,6 +1,24 @@
 var express = require('express');
 var router = express.Router();
 
+var mongodb = require('mongodb');
+
+function getTotalSpent(items) {
+	var total = 0;
+
+	for (var i = 0; i < items.length; i++) {
+		if (items[i]['Amount'].charAt(0) === '-') {
+			// It's a sale
+			total -= parseFloat(items[i]['Amount'].substring(1));
+			console.log(parseFloat(items[i]['Amount'].substring(1)));
+		} else if (items[i]['Amount'].charAt(0) === '+') {
+			// It's a payment - Do nothing
+		}
+	}
+
+	return total;
+}
+
 router.get('/', function(req, res, next) {
 	var renderTransactionPage = function(db) {
 		var userDB = db.db('aa_users');
@@ -10,9 +28,12 @@ router.get('/', function(req, res, next) {
 			if (err) {
 				res.send(err);
 			} else if (result.length) {
+				var total_spent = getTotalSpent(result);
+
 				res.render('pages/transactions-display', {
 					title: "Transactions",
-					transList: result
+					transList: result,
+					totalSpent: total_spent.toFixed(2)
 				});
 			} else {
 				res.send("No transactions found");
@@ -22,6 +43,10 @@ router.get('/', function(req, res, next) {
 	}
 
 	operateDatabase(renderTransactionPage);
+});
+
+router.get('/detail/:trans_id', function(req, res, next) {
+	res.send("Transaction ID: " + req.params.trans_id);
 });
 
 var operateDatabase = function (action) {
@@ -38,3 +63,5 @@ var operateDatabase = function (action) {
 		}
 	});
 };
+
+module.exports = router;
