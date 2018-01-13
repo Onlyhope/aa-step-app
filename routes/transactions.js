@@ -10,13 +10,25 @@ function getTotalSpent(items) {
 		if (items[i]['Amount'].charAt(0) === '-') {
 			// It's a sale
 			total -= parseFloat(items[i]['Amount'].substring(1));
-			console.log(parseFloat(items[i]['Amount'].substring(1)));
+			console.log(items[i]['Type']);
 		} else if (items[i]['Amount'].charAt(0) === '+') {
 			// It's a payment - Do nothing
 		}
 	}
 
 	return total;
+}
+
+// Binary Sort? Because it's in place sorting?
+function sortByMonths(items) {
+	var transByMonthList = [];
+
+	for (var i = 0; i < items.length; i++) {
+
+
+
+		transByMonthList.push(transByMonth);
+	}
 }
 
 router.get('/', function(req, res, next) {
@@ -38,6 +50,7 @@ router.get('/', function(req, res, next) {
 			} else {
 				res.send("No transactions found");
 			}
+			db.close();
 		});
 
 	}
@@ -59,7 +72,6 @@ var operateDatabase = function (action) {
 		} else {
 			console.log('Connection successful! Performing action...');
 			action(db);
-			db.close();
 		}
 	});
 };

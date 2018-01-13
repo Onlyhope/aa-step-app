@@ -11,7 +11,8 @@
 			<div class="col-md-3">
 				<ul class="list-group trans-list">
 				<% transList.forEach(function(transaction) { %>
-					<li class="list-group-item trans-item"><a class="trans-item-link" href="transactions/detail/<%=transaction['_id']%>"><%=transaction['Description']%><br/><%=transaction['Amount']%></a></li>
+					<li class="list-group-item trans-item"><a class="trans-item-link" href="transactions/detail/<%=transaction['_id']%>"><%=transaction['Description']%><br/><%=transaction['Amount']%><br/>
+					<%=transaction['Trans Date']%></a></li>
 				<%});%>
 				</ul>
 			</div>
