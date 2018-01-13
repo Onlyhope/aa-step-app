@@ -25,12 +25,10 @@ router.get('/', function(req, res, next) {
 					transList : result
 				});
 			}
-		})
+		});
 	};
 
 	operateDatabase(renderHomePage);
-
-  	
 });
 
 router.get('/file-display/:file_name', function(req, res, next) {
@@ -58,10 +56,6 @@ router.get('/file-display/:file_name', function(req, res, next) {
 										});
 		});
 	});
-});
-
-router.get('/profile/:name', function(req, res, next) {
-	res.send("<h2> User's name is " + req.params.name + "</h2>");
 });
 
 router.post('/file-upload', function(req, res, next) {

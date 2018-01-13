@@ -6,7 +6,12 @@
 </head>
 
 <body>
-	<div class="container">
+	<script>
+		var list = <%- JSON.stringify(transList)%>;
+		alert(list[0].Description);
+	</script>
+
+	<div class="container-fluid">
 		<div class="row">
 			<div class="col-12">
 				<h1><%=title%></h1>
@@ -19,23 +24,24 @@
 			<div class="col-12">
 				<form action="file-upload" method="post" enctype="multipart/form-data">
 					<div class="form-group">
-						<input type="file" name="filetoupload"><br/><br/>
-						<input type="submit">
+    					<input type="file" class="form-control-file" id="exampleInputFile" name="filetoupload" aria-describedby="fileHelp">
+   						 <small id="fileHelp" class="form-text text-muted"><br/></small>
+						<input type="submit" class="btn btn-primary">
 					</div>
 				</form>
 			</div>
 		</div>
 		<hr/>
 		<div class="row">
-			<div class="col-4">
+			<div class="col-3">
+				<ul class="list-group trans-list">
 				<h2>Transactions</h2>
-				<ul>
 				<% transList.forEach(function(transaction) { %>
-					<li><%=transaction['Description']%> | <%=transaction['Amount']%></li>
+					<li class="list-group-item"><%=transaction['Description']%> | <%=transaction['Amount']%></li>
 				<%});%>
 				</ul>
 			</div>
-			<div class="col-8">
+			<div class="col-9">
 				<h2>Graphs</h2>
 			</div>
 		</div>
