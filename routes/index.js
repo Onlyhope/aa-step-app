@@ -39,9 +39,6 @@ router.get('/file-display/:file_name', function(req, res, next) {
 	csv()
 	.fromFile(file_path)
 	.on('json',(jsonObj)=>{
-		console.log(jsonObj.Amount);
-		console.log(jsonObj.Description);
-		console.log(jsonObj.PostDate);
 		transactions.push(jsonObj);
     	// combine csv header row and csv line to a json object
     	// jsonObj.a ==> 1 or 4
