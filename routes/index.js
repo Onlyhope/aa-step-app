@@ -43,8 +43,17 @@ router.post('/file-upload', function(req, res, next) {
 		csv()
 		.fromFile(oldpath)
 		.on('json', (jsonObj) => {
-			jsonObj['Type'] = new Date();
-			transactions.push(jsonObj);
+
+			var params = jsonObj['Posting Date'].split("/");
+			var post_date = new Date(parseInt(params[2]), parseInt(params[0])-1, parseInt(params[1]));
+
+			var transaction = {
+				details: jsonObj['Details'],
+				date: post_date,
+				description: jsonObj['Description'],
+				amount: jsonObj['Amount']
+			}
+			transactions.push(transaction);
 		}).on('done', (error) => {
 			// Save transctions into database here..
 			var MongoClient = mongodb.MongoClient;
