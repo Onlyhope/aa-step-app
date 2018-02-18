@@ -1,7 +1,7 @@
 body {
   background-image: url(https://wallpapercave.com/wp/X49EwD0.jpg);
-  margin-top: 50px;
   padding: 0 50px 0 50px;
+  margin-top: 50px;
   font-family: 'Ubuntu', serif; }
 
 .trans-list {
@@ -14,4 +14,3 @@ body {
 
 .trans-item {
   text-decoration: none; }
-
