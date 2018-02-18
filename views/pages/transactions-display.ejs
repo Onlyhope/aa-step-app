@@ -8,22 +8,61 @@
 <body>
 	<div class="container">
 		<div class="row">
-			<div class="col-md-3">
-				<ul>
+<!-- 			<div class="col-md-3">
+				<ul class="list-group trans-list">
 				<% transList.forEach(function(transaction) { %>
-				<li><a href="<%=transaction['_id']%>"><%=transaction['Description']%></a></li>
+					<li class="list-group-item trans-item"><a class="trans-item-link" href="transactions/detail/<%=transaction['_id']%>"><%=transaction['description']%><br/><%=transaction['amount']%><br/>
+					<%=transaction['date']%></a></li>
 				<%});%>
 				</ul>
-			</div>
-			<div class="col-md-9">
+			</div> -->
+			<div class="col-md-12">
 				<div class="row">
-					<h2>%=title%></h2>
+					<h2><%=title%></h2>
 				</div>
 				<div class="row">
 					<p>Information and Graphs of Transactions display here</p>
+				</div>
+				<div class="row">
+					<p>Total Spent: <%=totalSpent%></p>
+				</div>
+				<div class="row">
+					<p>Net Gain: <%=netGain%></p>
+				</div>
+				<div class="row">
+					<div class="input-group" style="padding-right: 50%; margin-bottom: 20px;">
+      					<input id="filter" type="text" class="form-control" placeholder="Search for...">
+      					<span class="input-group-btn">
+        				<button class="btn btn-secondary" type="button" onclick="filter()">Go!</button>
+      					</span>
+    				</div>
+				</div>
+				<div class="row">
+					<table class="table">
+					  	<thead>
+					    	<tr>
+					      	<th>#</th>
+					      	<th>Description</th>
+					      	<th>Date</th>
+					      	<th>Amount</th>
+					    	</tr>
+					 	</thead>
+					 	<% var i = 0; %>
+					 	<tbody>
+					 	<% transList.forEach(function(transaction) { %>
+					 		<tr>
+					 			<th scope="row"><%=i++%></th>
+					 			<td><%=transaction['description']%></td>
+					 			<td><%=transaction['date']%></td>
+					 			<td><%=transaction['amount']%></td>
+					 		</tr>
+					 	<% }); %>
+					 	</tbody>
+					</table>
 				</div>
 			</div>
 		</div>
 	</div>
 </body>
+<script src="../public/javascripts/transactions-page.js"></script>
 </html>

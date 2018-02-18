@@ -24,6 +24,7 @@ router.get('/display', function(req, res, next) {
 			} else {
 				res.send("No users found");
 			}
+			db.close();
 		});
 	};
 
@@ -47,6 +48,7 @@ router.get('/:username', function(req, res, next) {
 					user: users[0]
 				});
 			}
+			db.close();
 		});
 	};
 
@@ -70,6 +72,7 @@ router.post('/:username/update-user', function(req, res, next) {
 				} else {
 					res.redirect('/users/' + req.params.username);
 				}
+				db.close();
 			});
 	};
 
@@ -90,6 +93,7 @@ router.post('/:username/delete-user', function(req, res, next) {
 			} else {
 				res.redirect('/users/display');
 			}
+			db.close();
 		});
 	};
 
@@ -114,6 +118,7 @@ router.post('/new-user', function(req, res, next) {
 			} else {
 				res.redirect('display');
 			}
+			db.close();
 		});
 	};
 
@@ -130,7 +135,6 @@ var operateDatabase = function (action) {
 		} else {
 			console.log('Connection successful! Performing action...');
 			action(db);
-			db.close();
 		}
 	});
 };

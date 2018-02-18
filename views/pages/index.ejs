@@ -30,6 +30,9 @@
 					</div>
 				</form>
 			</div>
+			<div class="row">
+				<a href="transactions">Transaction Display</a>
+			</div>
 		</div>
 		<hr/>
 		<div class="row">
@@ -37,7 +40,7 @@
 				<ul class="list-group trans-list">
 				<h2>Transactions</h2>
 				<% transList.forEach(function(transaction) { %>
-					<li class="list-group-item"><%=transaction['Description']%> | <%=transaction['Amount']%></li>
+					<li><%=transaction['description']%> | <%=transaction['amount']%></li>
 				<%});%>
 				</ul>
 			</div>

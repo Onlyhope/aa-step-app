@@ -25,34 +25,11 @@ router.get('/', function(req, res, next) {
 					transList : result
 				});
 			}
+			db.close();
 		});
 	};
 
-	operateDatabase(renderHomePage);
-});
-
-router.get('/file-display/:file_name', function(req, res, next) {
-	var file_path = upload_dir + req.params.file_name;
-
-	var transactions = [];
-
-	csv()
-	.fromFile(file_path)
-	.on('json',(jsonObj)=>{
-		transactions.push(jsonObj);
-    	// combine csv header row and csv line to a json object
-    	// jsonObj.a ==> 1 or 4
-	}).on('done', (error) => {
-		console.log(transactions.length);
-
-		fs.readFile(file_path, (err, data) => {
-			if (err) throw err;
-			res.render('pages/file-display', {
-											fileName : req.params.file_name,
-											transactionList : transactions
-										});
-		});
-	});
+	operateDatabase(renderHomePage); 	
 });
 
 router.post('/file-upload', function(req, res, next) {
@@ -66,9 +43,17 @@ router.post('/file-upload', function(req, res, next) {
 		csv()
 		.fromFile(oldpath)
 		.on('json', (jsonObj) => {
-			console.log(jsonObj["Post Date"]);
-			console.log("\nTransaction: ", jsonObj);
-			transactions.push(jsonObj);
+
+			var params = jsonObj['Posting Date'].split("/");
+			var post_date = new Date(parseInt(params[2]), parseInt(params[0])-1, parseInt(params[1]));
+
+			var transaction = {
+				details: jsonObj['Details'],
+				date: post_date,
+				description: jsonObj['Description'],
+				amount: jsonObj['Amount']
+			}
+			transactions.push(transaction);
 		}).on('done', (error) => {
 			// Save transctions into database here..
 			var MongoClient = mongodb.MongoClient;
@@ -85,8 +70,9 @@ router.post('/file-upload', function(req, res, next) {
 						if (err) {
 							res.send('Error', err);
 						} else {
-						res.redirect('/');
+							res.redirect('/');
 						}
+						db.close();
 					});
 				}
 			});
@@ -104,7 +90,6 @@ var operateDatabase = function (action) {
 		} else {
 			console.log('Connection successful! Performing action...');
 			action(db);
-			db.close();
 		}
 	});
 };
