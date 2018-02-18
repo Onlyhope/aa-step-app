@@ -42,7 +42,6 @@ module.exports = function(grunt) {
 
   });
 
-
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-sass');
   grunt.loadNpmTasks('grunt-contrib-watch');
