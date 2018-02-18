@@ -74,7 +74,7 @@ router.get('/', function(req, res, next) {
 	operateDatabase(renderTransactionPage);
 });
 
-router.get('/search/:keywords', function(req, res, next) {
+router.get('/search/:keyphrase', function(req, res, next) {
 	var renderSearch = function(db) {
 		var userDB = db.db('aa_users');
 		var collection = userDB.collection('transactions');
@@ -83,11 +83,11 @@ router.get('/search/:keywords', function(req, res, next) {
 			if (err) {
 				res.send(err);
 			} else if (result.length) {
-				var keywords = req.params.keywords.split(" ");
+				var keyphrase = req.params.keyphrase.split(" ");
 				var filteredList = [];
 				for (var i = 0; i < result.length; i++) {
-					for (var j = 0; j < keywords.length; j++) {
-						if (result[i]['description'].includes(keywords[j])) {
+					for (var j = 0; j < keyphrase.length; j++) {
+						if (result[i]['description'].includes(keyphrase[j])) {
 							filteredList.push(result[i]);
 							break;
 						}
@@ -98,7 +98,7 @@ router.get('/search/:keywords', function(req, res, next) {
 				var net_gain = getNetAmount(filteredList);
 
 				res.render('pages/transactions-display', {
-					title: "Filtered Transactions " + req.params.keywords,
+					title: "Filtered Transactions " + req.params.keyphrase,
 					transList: filteredList,
 					totalSpent: total_spent.toFixed(2),
 					netGain: net_gain.toFixed(2)
@@ -111,6 +111,36 @@ router.get('/search/:keywords', function(req, res, next) {
 	}
 
 	operateDatabase(renderSearch);
+});
+
+router.post('/search/:keyphrase', function(req, res, next) {
+	var postTransSearch = function(db) {
+		var userDB = db.db('aa_users');
+		var collection = userDB.collection('transactions');
+
+		collection.find({}).sort({date: -1}).toArray(function(err, result) {
+			if (err) {
+				res.send(err);
+			} else if (result.length) {
+				var keyphrase = req.params.keyphrase.split(" ");
+				var filteredList = [];
+				for (var i = 0; i < result.length; i++) {
+					for (var j = 0; j < keyphrase.length; j++) {
+						if (result[i]['description'].includes(keyphrase[j])) {
+							filteredList.push(result[i]);
+							break;
+						}
+					}
+				}
+				res.send(filteredList);
+			} else {
+				res.send('No transactions found');
+			}
+			db.close();
+		});
+	}
+
+	operateDatabase(postTransSearch);
 });
 
 router.get('/detail/:trans_id', function(req, res, next) {
