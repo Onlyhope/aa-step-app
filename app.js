@@ -71,6 +71,4 @@ MongoClient.connect(url, function(err, db) {
     });
 });
 
-console.log("Testing");
-
 module.exports = app;
